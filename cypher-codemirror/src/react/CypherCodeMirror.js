@@ -19,8 +19,8 @@
  */
 
 /* eslint-disable no-console */
-import * as React from 'react';
-import { createCypherEditor, parse } from '../codemirror-cypher';
+import * as React from "react";
+import { createCypherEditor, parse } from "../codemirror-cypher";
 
 function triggerAutocompletion(cm, changed) {
   if (changed.text.length !== 1) {
@@ -29,17 +29,17 @@ function triggerAutocompletion(cm, changed) {
 
   const text = changed.text[0];
   const shouldTriggerAutocompletion =
-    text === '.' ||
-    text === ':' ||
-    text === '[]' ||
-    text === '()' ||
-    text === '{}' ||
-    text === '[' ||
-    text === '(' ||
-    text === '{' ||
-    text === '$';
+    text === "." ||
+    text === ":" ||
+    text === "[]" ||
+    text === "()" ||
+    text === "{}" ||
+    text === "[" ||
+    text === "(" ||
+    text === "{" ||
+    text === "$";
   if (shouldTriggerAutocompletion) {
-    cm.execCommand('autocomplete');
+    cm.execCommand("autocomplete");
   }
 }
 
@@ -60,32 +60,56 @@ export default class CypherCodeMirror extends React.Component {
   }
 
   componentDidMount() {
-    const { editor, editorSupport } = createCypherEditor(this.input, this.settings);
+    console.log(this.input);
+
+    const { editor, editorSupport } = createCypherEditor(
+      this.input,
+      this.settings
+    );
     this.editor = editor;
-    this.editor.on('change', triggerAutocompletion);
+    this.editor.on("change", triggerAutocompletion);
     this.editorSupport = editorSupport;
-    this.editorSupport.on('updated', () => {
-      console.log('UPDATED - this.editorSupport.version: ', this.editorSupport.version);
-      console.table(this.editorSupport.queriesAndCommands.map(stmt => stmt.getText()));
+    this.editorSupport.on("updated", () => {
+      console.log(
+        "UPDATED - this.editorSupport.version: ",
+        this.editorSupport.version
+      );
+      console.table(
+        this.editorSupport.queriesAndCommands.map(stmt => stmt.getText())
+      );
     });
-    this.editorSupport.on('update', () => {
-      console.log('UPDATE - this.editor.version: ', this.editor.version);
-      console.log('UPDATE - this.editorSupport.version: ', this.editorSupport.version);
+    this.editorSupport.on("update", () => {
+      console.log("UPDATE - this.editor.version: ", this.editor.version);
+      console.log(
+        "UPDATE - this.editorSupport.version: ",
+        this.editorSupport.version
+      );
       this.editorSupport
         .ensureVersion(this.editor.version)
         .then(() => {
-          console.log('ENSURE OK - this.editor.version: ', this.editor.version);
-          console.log('ENSURE OK - this.editorSupport.version: ', this.editorSupport.version);
+          console.log("ENSURE OK - this.editor.version: ", this.editor.version);
+          console.log(
+            "ENSURE OK - this.editorSupport.version: ",
+            this.editorSupport.version
+          );
         })
         .catch(() => {
-          console.error('Version not found');
-          console.log('ENSURE ERROR - this.editor.version: ', this.editor.version);
-          console.log('ENSURE ERROR - this.editorSupport.version: ', this.editorSupport.version);
+          console.error("Version not found");
+          console.log(
+            "ENSURE ERROR - this.editor.version: ",
+            this.editor.version
+          );
+          console.log(
+            "ENSURE ERROR - this.editorSupport.version: ",
+            this.editorSupport.version
+          );
         });
     });
     this.editorSupport.setSchema(this.schema);
   }
   componentWillUpdate(nextProps) {
+    debugger;
+
     if (nextProps.schema) {
       this.schema = nextProps.schema;
       this.editorSupport.setSchema(nextProps.schema);
@@ -94,17 +118,21 @@ export default class CypherCodeMirror extends React.Component {
     if (nextProps.theme) {
       this.theme = nextProps.theme;
       this.settings.theme = nextProps.theme;
-      this.editor.setOption('theme', this.theme);
+      this.editor.setOption("theme", this.theme);
     }
   }
   parseContent = () => {
-    const { referencesListener, referencesProviders } = parse(this.editor.getValue());
+    const { referencesListener, referencesProviders } = parse(
+      this.editor.getValue()
+    );
     const { queriesAndCommands } = referencesListener;
-    console.log('queriesAndCommands: ', queriesAndCommands);
-    console.log('referencesProviders: ', referencesProviders);
+    console.log("queriesAndCommands: ", queriesAndCommands);
+    console.log("referencesProviders: ", referencesProviders);
   };
   render() {
-    const setInput = (input) => {
+    const setInput = input => {
+      debugger;
+
       this.input = input;
     };
     return (

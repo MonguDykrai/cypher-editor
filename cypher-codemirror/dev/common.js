@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import functions from './_data/functions.json';
-import procedures from './_data/procedures.json';
+import functions from "./_data/functions.json";
+import procedures from "./_data/procedures.json";
 
 export const codeMirrorSettings = {
   value: `// line comment
@@ -36,146 +36,136 @@ CALL some.procedureName()
 CALL some.procedureName() YIELD param1, param2 as somethingElse
 MATCH (variable {propKey: 1})
 SET variable.propKey = 1;`,
-  mode: 'application/x-cypher-query',
+  mode: "application/x-cypher-query",
   indentWithTabs: true,
   smartIndent: false,
   lineNumbers: true,
   matchBrackets: true,
   autofocus: true,
-  theme: 'cypher cypher-dark',
+  theme: "cypher cypher-dark",
   lint: true,
   styleActiveLine: true,
-  extraKeys: { 'Ctrl-Space': 'autocomplete' },
+  extraKeys: { "Ctrl-Space": "autocomplete" },
   hintOptions: {
     completeSingle: false,
     closeOnUnfocus: false,
     alignWithWord: true,
-    async: true,
+    async: true
   },
-  gutters: ['cypher-hints'],
+  gutters: ["cypher-hints"],
   lineWrapping: true,
   autoCloseBrackets: {
-    explode: '',
-  },
+    explode: ""
+  }
 };
 
 export const neo4jSchema = {
   consoleCommands: [
-    { name: ':clear' },
-    { name: ':play' },
-    { name: ':help', description: 'this is help command' },
+    { name: ":clear" },
+    { name: ":play" },
+    { name: ":help", description: "this is help command" },
     {
-      name: ':server',
+      name: ":server",
       commands: [
         {
-          name: 'user',
-          commands: [
-            { name: 'list', description: 'listdesc' },
-            { name: 'add' },
-          ],
-        },
-      ],
+          name: "user",
+          commands: [{ name: "list", description: "listdesc" }, { name: "add" }]
+        }
+      ]
     },
-    { name: ':schema' },
-    { name: ':history' },
-    { name: ':queries' },
+    { name: ":schema" },
+    { name: ":history" },
+    { name: ":queries" }
   ],
   labels: [
-    ':Spacey mc spaceface',
-    ':Legislator',
-    ':State',
-    ':Party',
-    ':Body',
-    ':Bill',
-    ':Subject',
-    ':Committee',
-    ':Congress'],
+    ":Spacey mc spaceface",
+    ":Legislator",
+    ":State",
+    ":Party",
+    ":Body",
+    ":Bill",
+    ":Subject",
+    ":Committee",
+    ":Congress"
+  ],
   relationshipTypes: [
-    ':REPRESENTS',
-    ':IS_MEMBER_OF',
-    ':ELECTED_TO',
-    ':PROPOSED_DURING',
-    ':SPONSORED_BY',
-    ':VOTED ON',
-    ':REFERRED_TO',
-    ':SERVES_ON',
-    ':DEALS_WITH',
+    ":REPRESENTS",
+    ":IS_MEMBER_OF",
+    ":ELECTED_TO",
+    ":PROPOSED_DURING",
+    ":SPONSORED_BY",
+    ":VOTED ON",
+    ":REFERRED_TO",
+    ":SERVES_ON",
+    ":DEALS_WITH"
   ],
-  parameters: [
-    'age',
-    'name',
-    'surname',
-  ],
+  parameters: ["age", "name", "surname"],
   propertyKeys: [
-    'bioguideID',
-    'code',
-    'name',
-    'type',
-    'billID',
-    'title',
-    'thomasID',
-    'birthday',
-    'wikipediaID',
-    'currentParty',
-    'state',
-    'votesmartID',
-    'fecIDs',
-    'republicanCount',
-    'otherCount',
-    'cspanID',
-    'democratCount',
-    'lastName',
-    'firstName',
-    'party',
-    'opensecretsID',
-    'icpsrID',
-    'religion',
-    'lisID',
-    'govtrackID',
-    'gender',
-    'district',
-    'number',
-    'enacted',
-    'officialTitle',
-    'vetoed',
-    'active',
-    'popularTitle',
-    'cosponsor',
-    'vote',
-    'jurisdiction',
-    'url',
-    'rank',
-    'washpostID',
+    "bioguideID",
+    "code",
+    "name",
+    "type",
+    "billID",
+    "title",
+    "thomasID",
+    "birthday",
+    "wikipediaID",
+    "currentParty",
+    "state",
+    "votesmartID",
+    "fecIDs",
+    "republicanCount",
+    "otherCount",
+    "cspanID",
+    "democratCount",
+    "lastName",
+    "firstName",
+    "party",
+    "opensecretsID",
+    "icpsrID",
+    "religion",
+    "lisID",
+    "govtrackID",
+    "gender",
+    "district",
+    "number",
+    "enacted",
+    "officialTitle",
+    "vetoed",
+    "active",
+    "popularTitle",
+    "cosponsor",
+    "vote",
+    "jurisdiction",
+    "url",
+    "rank",
+    "washpostID"
   ],
-  functions: functions.data
-    .map(data => ({
-      name: data.row[0],
-      signature: data.row[1].replace(data.row[0], ''),
-    })),
-  procedures: procedures.data
-    .map((data) => {
-      const name = data.row[0];
-      const signature = data.row[1].replace(data.row[0], '');
+  functions: functions.data.map(data => ({
+    name: data.row[0],
+    signature: data.row[1].replace(data.row[0], "")
+  })),
+  procedures: procedures.data.map(data => {
+    const name = data.row[0];
+    const signature = data.row[1].replace(data.row[0], "");
 
-      let returnItems = [];
-      const matches = signature.match(/\([^)]*\) :: \((.*)\)/i);
+    let returnItems = [];
+    const matches = signature.match(/\([^)]*\) :: \((.*)\)/i);
 
-      if (matches) {
-        returnItems = matches[1]
-          .split(', ')
-          .map((returnItem) => {
-            const returnItemMatches = returnItem.match(/(.*) :: (.*)/);
-            return {
-              name: returnItemMatches[1],
-              signature: returnItemMatches[2],
-            };
-          });
-      }
+    if (matches) {
+      returnItems = matches[1].split(", ").map(returnItem => {
+        const returnItemMatches = returnItem.match(/(.*) :: (.*)/);
+        return {
+          name: returnItemMatches[1],
+          signature: returnItemMatches[2]
+        };
+      });
+    }
 
-      return {
-        name,
-        signature,
-        returnItems,
-      };
-    }),
+    return {
+      name,
+      signature,
+      returnItems
+    };
+  })
 };

@@ -18,50 +18,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import 'babel-polyfill';
-import * as ReactDOM from 'react-dom';
-import * as React from 'react';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/addon/lint/lint';
-import 'codemirror/addon/lint/lint.css';
-import 'codemirror/addon/hint/show-hint';
-import 'codemirror/addon/edit/closebrackets';
+import "babel-polyfill";
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+import "codemirror/lib/codemirror.css";
+import "codemirror/addon/lint/lint";
+import "codemirror/addon/lint/lint.css";
+import "codemirror/addon/hint/show-hint";
+import "codemirror/addon/edit/closebrackets";
 
-import '../../src/codemirror-cypher.css';
-import CypherCodeMirror from '../../src/react/CypherCodeMirror';
-import { neo4jSchema, codeMirrorSettings } from '../common';
+import "../../src/codemirror-cypher.css";
+import CypherCodeMirror from "../../src/react/CypherCodeMirror";
+import { neo4jSchema, codeMirrorSettings } from "../common";
 
 class Content extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      theme: 'cypher cypher-dark',
+      theme: "cypher cypher-dark"
     };
   }
 
   lightTheme = () => {
-    this.setState({ theme: 'cypher' });
+    this.setState({ theme: "cypher" });
   };
 
   darkTheme = () => {
-    this.setState({ theme: 'cypher cypher-dark' });
+    this.setState({ theme: "cypher cypher-dark" });
   };
 
   render() {
     return (
       <div className="columns">
         <div>
-          <CypherCodeMirror theme={this.state.theme} settings={codeMirrorSettings} schema={neo4jSchema} />
+          <CypherCodeMirror
+            theme={this.state.theme}
+            settings={codeMirrorSettings}
+            schema={neo4jSchema}
+          />
         </div>
         <div>
           <div className="schema">
             <button onClick={this.lightTheme}>Light theme</button>
             <button onClick={this.darkTheme}>Dark theme</button>
-            <pre>
-              {JSON.stringify(neo4jSchema, null, 2)}
-            </pre>
+            <pre>{JSON.stringify(neo4jSchema, null, 2)}</pre>
           </div>
         </div>
       </div>
@@ -69,7 +70,4 @@ class Content extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <Content />,
-  document.getElementById('content'),
-);
+ReactDOM.render(<Content />, document.getElementById("content"));
